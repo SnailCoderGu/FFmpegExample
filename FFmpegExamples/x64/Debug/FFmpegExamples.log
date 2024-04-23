@@ -1,0 +1,11 @@
+﻿  FFmpegExamples.cpp
+D:\program\FFmpegExample\ffmpeg3.4-x64-debug\include\libavutil\rational.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“FFmpegExamples.cpp”)
+  
+  FileDecode.cpp
+D:\program\FFmpegExample\ffmpeg3.4-x64-debug\include\libavutil\rational.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“FileDecode.cpp”)
+  
+  正在生成代码...
+D:\program\FFmpegExample\FileDecode.cpp(78,1): warning C4715: “FileDecode::Decode”: 不是所有的控件路径都返回值
+  FFmpegExamples.vcxproj -> D:\program\FFmpegExample\x64\Debug\FFmpegExamples.exe

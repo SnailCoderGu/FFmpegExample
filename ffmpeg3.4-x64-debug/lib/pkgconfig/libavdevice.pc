@@ -1,0 +1,14 @@
+prefix=/d/ffmpeg/ffmpeg/ffmpeg_install
+exec_prefix=${prefix}
+libdir=/d/ffmpeg/ffmpeg/ffmpeg_install/lib
+includedir=/d/ffmpeg/ffmpeg/ffmpeg_install/include
+
+Name: libavdevice
+Description: FFmpeg device handling library
+Version: 57.10.100
+Requires: 
+Requires.private: libavfilter >= 6.107.100, libswscale >= 4.8.100, libavformat >= 57.83.100, libavcodec >= 57.107.100, libswresample >= 2.9.100, libavutil >= 55.78.100
+Conflicts:
+Libs: -L${libdir}  -lavdevice 
+Libs.private: -lgdi32 -lpsapi -lole32 -lstrmiids -luuid -loleaut32 -lshlwapi -luser32 -lws2_32 -liconv -lvfw32 -luser32 -lsecur32 -lm -llzma -lbz2 -lz -lpsapi -ladvapi32 -lshell32 -lole32
+Cflags: -I${includedir}
