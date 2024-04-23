@@ -22,5 +22,6 @@ int main() {
     {
         std::cout << "解码音频完成" << std::endl;
     }
+    fileDecode.Close();
     return 0;
 }

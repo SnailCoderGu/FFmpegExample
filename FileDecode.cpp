@@ -35,9 +35,9 @@ int FileDecode::OpenAudioDecode()
 {
     codecCtx = formatCtx->streams[audioStream]->codec;
 
-    codec = avcodec_find_decoder(codecCtx->codec_id);
+    AVCodec* codec = avcodec_find_decoder(codecCtx->codec_id);
     if (codec == NULL) {
-        std::cout << "cannot find codec id: " << codecPara->codec_id << std::endl;
+        std::cout << "cannot find codec id: " << codecCtx->codec_id << std::endl;
         return -1;
     }
 
@@ -77,6 +77,15 @@ int FileDecode::Decode()
     } while (avpkt.data == NULL);
 }
 
+void FileDecode::Close()
+{
+    fclose(outdecodedfile);
+  
+
+    avformat_close_input(&formatCtx);
+    avcodec_free_context(&codecCtx);
+}
+
 int FileDecode::DecodeAudio(AVPacket* originalPacket)
 {
     int ret = avcodec_send_packet(codecCtx, originalPacket);
@@ -102,5 +111,9 @@ int FileDecode::DecodeAudio(AVPacket* originalPacket)
     for (int i = 0; i < frame->nb_samples; i++)
         for (int ch = 0; ch < codecCtx->channels; ch++)
             fwrite(frame->data[ch] + data_size * i, 1, data_size, outdecodedfile);
+
+
+    av_frame_free(&frame);
+
     return 0;
 }

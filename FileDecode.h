@@ -15,12 +15,12 @@ public:
 	int OpenFile(std::string filename);
 	int OpenAudioDecode();
 	int Decode();
+	void Close();
 private:
 	int DecodeAudio(AVPacket* originalPacket);
 private:
-	AVCodec* codec = NULL;
+	
 	AVFormatContext* formatCtx = NULL;
-	AVCodecParameters* codecPara =NULL;
 	AVCodecContext* codecCtx = NULL;
 
 	FILE* outdecodedfile;
