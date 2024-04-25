@@ -11,10 +11,10 @@ int main() {
     av_register_all();
 
     FileDecode fileDecode;
-    int ret = fileDecode.OpenFile("oceans.mp4");
+    int ret = fileDecode.AVOpenFile("oceans.mp4");
     if (ret != 0)
     {
-        std::cout << "OpenFile Faild";
+        std::cout << "AVOpenFile Faild";
     }
     ret = fileDecode.OpenAudioDecode();
     ret = fileDecode.Decode();

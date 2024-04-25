@@ -1,13 +1,23 @@
 #include "FileDecode.h"
 
+FileDecode::~FileDecode()
+{
+    if (swrResample != NULL)
+    {
+        delete swrResample;
+        swrResample = NULL;
+    }
+}
 
-int FileDecode::OpenFile(std::string filename)
+int FileDecode::AVOpenFile(std::string filename)
 {
 
+#ifdef WRITE_DECODED_PCM_FILE
     outdecodedfile = fopen("decode.pcm", "wb");
     if (!outdecodedfile) {
         std::cout << "open out put file failed";
     }
+#endif
 
 	int openInputResult = avformat_open_input(&formatCtx, filename.c_str(), NULL, NULL);
     if (openInputResult != 0) {
@@ -48,6 +58,7 @@ int FileDecode::OpenAudioDecode()
         std::cout << "open decode faild" << std::endl;
         return -1;
     }
+
     return 0;
 }
 
@@ -79,8 +90,15 @@ int FileDecode::Decode()
 
 void FileDecode::Close()
 {
+    if (swrResample) {
+        swrResample->Close();
+    }
+
+#ifdef  WRITE_DECODED_PCM_FILE
     fclose(outdecodedfile);
-  
+#endif //  WRITE_DECODED_PCM_FILE
+
+
 
     avformat_close_input(&formatCtx);
     avcodec_free_context(&codecCtx);
@@ -108,12 +126,40 @@ int FileDecode::DecodeAudio(AVPacket* originalPacket)
         std::cout << "Failed to calculate data size\n";
         return -1;
     }
+
+#ifdef WRITE_DECODED_PCM_FILE
     for (int i = 0; i < frame->nb_samples; i++)
         for (int ch = 0; ch < codecCtx->channels; ch++)
             fwrite(frame->data[ch] + data_size * i, 1, data_size, outdecodedfile);
+#endif
 
+    // 把AVFrame里面的数据拷贝到，预备的src_data里面
+    if (swrResample == NULL)
+    {
+        swrResample = new SwrResample();
 
+        //创建重采样信息
+        int src_ch_layout = codecCtx->channel_layout;
+        int src_rate = codecCtx->sample_rate;
+        enum AVSampleFormat src_sample_fmt = codecCtx->sample_fmt;
+
+        int dst_ch_layout = AV_CH_LAYOUT_STEREO;
+        int dst_rate = 44100;
+        enum AVSampleFormat dst_sample_fmt = codecCtx->sample_fmt;
+
+        //aac编码一般是这个,实际这个值只能从解码后的数据里面获取，所有这个初始化过程可以放在解码出第一帧的时候
+        int src_nb_samples = frame->nb_samples;
+
+        swrResample->Init(src_ch_layout, dst_ch_layout,
+            src_rate, dst_rate,
+            src_sample_fmt, dst_sample_fmt,
+            src_nb_samples);
+    }
+   
+    ret = swrResample->WriteInput(frame);
+
+    int res = swrResample->SwrConvert();
+   
     av_frame_free(&frame);
-
     return 0;
 }

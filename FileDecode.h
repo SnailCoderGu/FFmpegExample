@@ -1,6 +1,9 @@
 #pragma once
 #include <string>
 #include <iostream>
+#include "SwrResample.h"
+
+#define WRITE_DECODED_PCM_FILE
 
 extern "C" {
 	#include <libavcodec/avcodec.h>
@@ -12,7 +15,8 @@ extern "C" {
 class FileDecode
 {
 public:
-	int OpenFile(std::string filename);
+	~FileDecode();
+	int AVOpenFile(std::string filename);
 	int OpenAudioDecode();
 	int Decode();
 	void Close();
@@ -23,8 +27,13 @@ private:
 	AVFormatContext* formatCtx = NULL;
 	AVCodecContext* codecCtx = NULL;
 
+#ifdef WRITE_DECODED_PCM_FILE
 	FILE* outdecodedfile;
+#endif 
 
 	int audioStream;
+
+private:
+	SwrResample* swrResample = NULL;
 };
 

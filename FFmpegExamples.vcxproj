@@ -133,9 +133,11 @@
   <ItemGroup>
     <ClCompile Include="FFmpegExamples.cpp" />
     <ClCompile Include="FileDecode.cpp" />
+    <ClCompile Include="SwrResample.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FileDecode.h" />
+    <ClInclude Include="SwrResample.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
