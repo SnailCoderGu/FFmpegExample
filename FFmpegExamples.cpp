@@ -16,7 +16,9 @@ int main() {
     {
         std::cout << "AVOpenFile Faild";
     }
+    ret = fileDecode.OpenVideoDecode();
     ret = fileDecode.OpenAudioDecode();
+
     ret = fileDecode.Decode();
     if (ret == 0)
     {
