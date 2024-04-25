@@ -38,8 +38,6 @@ private:
 
 	enum AVSampleFormat src_sample_fmt_;
 
-	
-
 #ifdef WRITE_RESAMPLE_PCM_FILE
 	FILE* outdecodedswffile;
 #endif

@@ -43,8 +43,8 @@ int  SwrResample::Init(int64_t src_ch_layout, int64_t dst_ch_layout,
     /*
     * src_nb_samples: 描述一整的采样个数 比如这里就是 1024
     * src_linesize: 描述一行采样字节长度 
-    *   当是planr 结构 LLLLLRRR 的时候 比如 一帧1024个采样，32为表示。那就是 1024*4 = 4096 
-    *   当是非palner 结构的时候 比如一帧1024采样 32位表示 双通道   1024*4*2 = 8196 要乘以通道
+    *   当是planr 结构 LLLLLRRRRRR 的时候 比如 一帧1024个采样，32位表示。那就是 1024*4 = 4096 
+    *   当是非palner 结构的时候 LRLRLR 比如一帧1024采样 32位表示 双通道   1024*4*2 = 8196 要乘以通道
     * src_nb_channels : 可以根据布局获得音频的通道
     * ret 返回输入数据的长度 比如这里 1024 * 4 * 2 = 8196 (32bit，双声道，1024个采样)
     */
@@ -93,7 +93,7 @@ int SwrResample::WriteInput(AVFrame* frame)
         for (int i = 0; i < frame->nb_samples; i++){
             for (int ch = 0; ch < src_nb_channels; ch++)
             {
-                memcpy(src_data_[0], frame->data[ch], data_size * frame->nb_samples);
+                memcpy(src_data_[0], frame->data[ch]+data_size*i, data_size);
             }
         }
     }
