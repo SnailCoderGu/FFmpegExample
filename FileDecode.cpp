@@ -244,8 +244,8 @@ int FileDecode::DecodeVideo(AVPacket* originalPacket)
 
     if (pix_fmt == AV_PIX_FMT_YUV420P) {
         fwrite(frame->data[0], 1, wrapy * ysize, outdecodedYUVfile); // Y
-        fwrite(frame->data[2], 1, wrapv * ysize / 2, outdecodedYUVfile); // V
         fwrite(frame->data[1], 1, wrapu * ysize / 2, outdecodedYUVfile); // U
+        fwrite(frame->data[2], 1, wrapv * ysize / 2, outdecodedYUVfile); // V
     }
 
 
