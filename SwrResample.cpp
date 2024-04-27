@@ -70,6 +70,9 @@ int  SwrResample::Init(int64_t src_ch_layout, int64_t dst_ch_layout,
         std::cout << "Could not allocate destination samples" << std::endl;
         return -1;
     }
+
+    int data_size = av_get_bytes_per_sample(dst_sample_fmt_);
+    audioPlayer.SetFormat(dst_nb_samples_, dst_rate, data_size*8, dst_nb_channels);
 }
 
 int SwrResample::WriteInput(AVFrame* frame)
@@ -126,6 +129,7 @@ int SwrResample::SwrConvert()
    else {
        //非planr结构，dst_data_[0] 里面存在着全部数据
        fwrite(dst_data_[0], 1, dst_bufsize, outdecodedswffile);
+       audioPlayer.writeData((const char*)(dst_data_[0]), dst_bufsize);
    }
 
     return dst_bufsize;
@@ -149,4 +153,6 @@ void SwrResample::Close()
     av_freep(&dst_data_);
 
     swr_free(&swr_ctx);
+
+    audioPlayer.Close();
 }

@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-
+#include "AudioPlayer.h"
 extern "C" {
     #include <libavutil/opt.h>
 	#include <libavutil/channel_layout.h>
@@ -41,6 +41,8 @@ private:
 #ifdef WRITE_RESAMPLE_PCM_FILE
 	FILE* outdecodedswffile;
 #endif
+
+	AudioPlayer audioPlayer;
 
 };
 

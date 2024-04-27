@@ -72,6 +72,7 @@ int FileDecode::OpenAudioDecode()
         return -1;
     }
 
+
     return 0;
 }
 
@@ -92,6 +93,8 @@ int FileDecode::OpenVideoDecode() {
         return -1;
     }
 
+    qtWin->initData(videoCodecCtx->width, videoCodecCtx->height);
+
     return 0;
 }
 
@@ -111,12 +114,14 @@ int FileDecode::Decode()
         if (avpkt.stream_index == audioStream)
         {
             //std::cout << "read one audio frame" << std::endl;
-            DecodeAudio(&avpkt);
+            //DecodeAudio(&avpkt);
             av_packet_unref(&avpkt);
+            //Sleep(3);
         }
         else if(avpkt.stream_index == videoStream) {
             DecodeVideo(&avpkt);
             av_packet_unref(&avpkt);
+            Sleep(30);
             continue;
         }
     } while (avpkt.data == NULL);
@@ -136,9 +141,6 @@ void FileDecode::Close()
     fclose(outdecodedYUVfile);
 #endif //  WRITE_DECODED_PCM_FILE
 
-
-
-  
     if (audioCodecCtx) {
         avcodec_close(audioCodecCtx); // 注意这里要用关闭，不要用下面free，会不够彻底，导致avformat_close_input崩溃
         //avcodec_free_context(&audioCodecCtx);
@@ -151,7 +153,14 @@ void FileDecode::Close()
     if (formatCtx) {
         avformat_close_input(&formatCtx);
     }
+
+    qtWin->Close();
     
+}
+
+void FileDecode::SetMyWindow(MyQtMainWindow* mywindow)
+{
+    this->qtWin = mywindow;
 }
 
 int FileDecode::DecodeAudio(AVPacket* originalPacket)
@@ -195,7 +204,7 @@ int FileDecode::DecodeAudio(AVPacket* originalPacket)
 
         int dst_ch_layout = AV_CH_LAYOUT_STEREO;
         int dst_rate = 44100;
-        enum AVSampleFormat dst_sample_fmt = audioCodecCtx->sample_fmt;
+        enum AVSampleFormat dst_sample_fmt = AV_SAMPLE_FMT_S16;
 
         //aac编码一般是这个,实际这个值只能从解码后的数据里面获取，所有这个初始化过程可以放在解码出第一帧的时候
         int src_nb_samples = frame->nb_samples;
@@ -250,6 +259,8 @@ int FileDecode::DecodeVideo(AVPacket* originalPacket)
 
 
 #endif //  WRITE_DECODED_PCM_FILE
+
+    qtWin->updateYuv(frame->data[0], frame->data[1], frame->data[2]);
 
     av_frame_free(&frame);
    

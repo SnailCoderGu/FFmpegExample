@@ -2,6 +2,8 @@
 #include <string>
 #include <iostream>
 #include "SwrResample.h"
+#include "MyQtMainWindow.h"
+
 
 #define WRITE_DECODED_PCM_FILE
 #define WRITE_DECODED_YUV_FILE
@@ -22,6 +24,9 @@ public:
 	int OpenVideoDecode();
 	int Decode();
 	void Close();
+	
+	void SetMyWindow(MyQtMainWindow* mywindow);
+
 private:
 	int DecodeAudio(AVPacket* originalPacket);
 	int DecodeVideo(AVPacket* originalPacket);
@@ -46,5 +51,9 @@ private:
 
 private:
 	SwrResample* swrResample = NULL;
+
+	MyQtMainWindow* qtWin = NULL;
+
+	
 };
 
