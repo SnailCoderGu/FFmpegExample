@@ -115,7 +115,7 @@
         __pragma(warning(push)) \
         __pragma(warning(disable : 4996)) \
         code; \
-        __pragma(warning(pop))
+        __pragma(warning(Pop))
 #else
 #    define AV_NOWARN_DEPRECATED(code) code
 #endif

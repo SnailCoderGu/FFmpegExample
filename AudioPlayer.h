@@ -21,11 +21,10 @@ public:
         format.setSampleType(QAudioFormat::SignedInt);  // 采样类型
 
         int len = dst_nb_samples * format.channelCount() * format.sampleSize()/8;
-
        
          // 创建 QAudioOutput 对象
         audioOutput = new QAudioOutput(format);
-
+        //audioOutput->setBufferSize(len * 100);
         audioOutput->setVolume(1.0); // 设置音量（0.0 - 1.0）
 
         // 打开音频输出
@@ -34,26 +33,21 @@ public:
 
     void writeData(const char* data, qint64 len) {
         //audioData.insert(0, data, len);
-
+        int buf_size = audioOutput->bufferSize();
         outputDevice->write(data, len);
     }
 
     void Close()
     {
+        audioOutput->stop();
 
-        if (outputDevice != nullptr)
-        {
-            outputDevice->close();
-            delete outputDevice;
-            outputDevice = NULL;
-        }
-        if (audioOutput)
-        {
-            //audioOutput->stop();
-            audioOutput = NULL;
-        }
+        //outputDevice->close();
 
-        
+        //delete outputDevice;
+        //outputDevice = NULL;
+
+        //delete audioOutput;
+        //audioOutput = NULL;
 
     }
 

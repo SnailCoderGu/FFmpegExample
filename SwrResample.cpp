@@ -118,17 +118,24 @@ int SwrResample::SwrConvert()
    int planar = av_sample_fmt_is_planar(dst_sample_fmt_);
    if (planar)
    {
+
        int data_size = av_get_bytes_per_sample(dst_sample_fmt_);
+#ifdef WRITE_RESAMPLE_PCM_FILE
        for (int i = 0; i < dst_nb_samples_; i++) {
            for (int ch = 0; ch < dst_nb_channels; ch++)
            {
-               fwrite(dst_data_[ch]+i*data_size, 1, data_size, outdecodedswffile);
+               fwrite(dst_data_[ch] + i * data_size, 1, data_size, outdecodedswffile);
            }
        }
+#endif // WRITE_RESAMPLE_PCM_FILE
+       
+
    }
    else {
        //非planr结构，dst_data_[0] 里面存在着全部数据
+#ifdef WRITE_RESAMPLE_PCM_FILE
        fwrite(dst_data_[0], 1, dst_bufsize, outdecodedswffile);
+#endif
        audioPlayer.writeData((const char*)(dst_data_[0]), dst_bufsize);
    }
 

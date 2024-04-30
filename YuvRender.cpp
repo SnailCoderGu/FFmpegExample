@@ -11,8 +11,16 @@ YuvRender::~YuvRender()
 
 void YuvRender::initializeGL()
 {
-	initializeOpenGLFunctions();
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // 设置清屏颜色
+    initializeOpenGLFunctions();
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+    // 创建纹理对象
+    glGenTextures(1, &textureId);
+    glBindTexture(GL_TEXTURE_2D, textureId);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
 	qDebug() << "initializeGL ok";
 }
@@ -25,12 +33,21 @@ void YuvRender::resizeGL(int w, int h)
 
 void YuvRender::paintGL()
 {
-    
     if (yuvData == NULL || rgbaData == NULL)
     {
         return;
     }
-    glDrawPixels(width_, height_, GL_RGBA, GL_UNSIGNED_BYTE, rgbaData);
+    // 更新纹理数据
+    glBindTexture(GL_TEXTURE_2D, textureId);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width_, height_, 0, GL_RGBA, GL_UNSIGNED_BYTE, rgbaData);
+    // 绘制纹理
+    glEnable(GL_TEXTURE_2D);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0.0, 0.0); glVertex2f(-1.0, -1.0);
+    glTexCoord2f(1.0, 0.0); glVertex2f(1.0, -1.0);
+    glTexCoord2f(1.0, 1.0); glVertex2f(1.0, 1.0);
+    glTexCoord2f(0.0, 1.0); glVertex2f(-1.0, 1.0);
+    glEnd();
 }
 
 void YuvRender::initData(int w, int h)
@@ -41,7 +58,6 @@ void YuvRender::initData(int w, int h)
     allocData();
 
     qDebug() << "initData ok";
-
 }
 
 void YuvRender::updateYuv(uint8_t* y, uint8_t* u, uint8_t* v)
@@ -89,6 +105,4 @@ void YuvRender::allocData()
     }
 
     qDebug() << "initData ok";
-
-   
 }

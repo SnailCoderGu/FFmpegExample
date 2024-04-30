@@ -30,4 +30,6 @@ private:
 
 	int width_ = 0;      // Í¼Ïñ¿í¶È
 	int height_ = 0;     // Í¼Ïñ¸ß¶È
+
+	GLuint textureId;
 };

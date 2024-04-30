@@ -163,12 +163,15 @@
     <ClCompile Include="MyQtMainWindow.cpp" />
     <ClCompile Include="SwrResample.cpp" />
     <ClCompile Include="YuvRender.cpp" />
+    <ClCompile Include="ImageYuvRender.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioPlayer.h" />
     <ClInclude Include="FileDecode.h" />
+    <QtMoc Include="ImageYuvRender.h" />
     <QtMoc Include="YuvRender.h" />
     <QtMoc Include="MyQtMainWindow.h" />
+    <ClInclude Include="JitterBuffer.h" />
     <ClInclude Include="SwrResample.h" />
   </ItemGroup>
   <ItemGroup>

@@ -8,11 +8,12 @@ extern "C" {
 	#include <libswresample/swresample.h>
 }
 
-#define WRITE_RESAMPLE_PCM_FILE
+//#define WRITE_RESAMPLE_PCM_FILE
 
 class SwrResample
 {
 public:
+	SwrResample() {}
 	int Init(int64_t src_ch_layout, int64_t dst_ch_layout,
 		int src_rate, int dst_rate,
 		enum AVSampleFormat src_sample_fmt, enum AVSampleFormat dst_sample_fmt,

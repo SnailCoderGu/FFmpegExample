@@ -21,10 +21,45 @@
     <ClCompile Include="FileDecode.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="MyQtMainWindow.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SwrResample.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="YuvRender.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageYuvRender.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FileDecode.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="AudioPlayer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SwrResample.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="JitterBuffer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="YuvRender.h">
+      <Filter>头文件</Filter>
+    </QtMoc>
+    <QtMoc Include="MyQtMainWindow.h">
+      <Filter>头文件</Filter>
+    </QtMoc>
+    <QtMoc Include="ImageYuvRender.h">
+      <Filter>头文件</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="MainWindow.ui" />
   </ItemGroup>
 </Project>
