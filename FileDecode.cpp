@@ -580,8 +580,7 @@ bool FileDecode::is_planar_yuv(enum AVPixelFormat pix_fmt) {
 
 void FileDecode::RunFFmpeg(std::string url)
 {
-    
-
+   
     // 注册所有的编解码器、格式和协议
     av_register_all();
 
