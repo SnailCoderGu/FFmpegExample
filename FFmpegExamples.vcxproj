@@ -158,6 +158,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ChooseUrlDialog.cpp" />
     <ClCompile Include="FFmpegExamples.cpp" />
     <ClCompile Include="FileDecode.cpp" />
     <ClCompile Include="MyQtMainWindow.cpp" />
@@ -167,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioPlayer.h" />
+    <QtMoc Include="ChooseUrlDialog.h" />
     <ClInclude Include="FileDecode.h" />
     <QtMoc Include="ImageYuvRender.h" />
     <QtMoc Include="YuvRender.h" />
@@ -175,6 +177,7 @@
     <ClInclude Include="SwrResample.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="chooseurl.ui" />
     <QtUic Include="MainWindow.ui">
       <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)</QtUicDir>
     </QtUic>

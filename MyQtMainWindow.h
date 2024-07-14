@@ -37,6 +37,7 @@ public slots:
 	void OnSliderValueReleased();
 
 	void OpenFileDialog();
+	void OpenNetUrlDialog();
 	void UpdatePlayerInfo();
 	void ClickPlay();
 private:

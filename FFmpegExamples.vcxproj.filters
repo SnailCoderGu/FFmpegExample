@@ -33,6 +33,9 @@
     <ClCompile Include="ImageYuvRender.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="ChooseUrlDialog.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FileDecode.h">
@@ -58,8 +61,12 @@
     <QtMoc Include="ImageYuvRender.h">
       <Filter>头文件</Filter>
     </QtMoc>
+    <QtMoc Include="ChooseUrlDialog.h">
+      <Filter>头文件</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="MainWindow.ui" />
+    <QtUic Include="chooseurl.ui" />
   </ItemGroup>
 </Project>

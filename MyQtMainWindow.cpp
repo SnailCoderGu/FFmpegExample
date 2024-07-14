@@ -9,6 +9,7 @@
 #include <iostream>
 #include <string>
 #include "Windows.h"
+#include "ChooseUrlDialog.h"
 
 extern "C" {
 #include <libavcodec/avcodec.h>
@@ -26,11 +27,13 @@ MyQtMainWindow::MyQtMainWindow(QWidget* parent)
 	
 	QMenu* fileMenu = ui->menubar->addMenu("File");
 	QAction* openAction = fileMenu->addAction("OpenFile");
+	QAction* openNetAction = fileMenu->addAction("OpenNetUrl");
 	ui->menubar->setFixedHeight(40);
 
 
 	// 当点击菜单项或按钮时弹出文件对话框
 	QObject::connect(openAction, &QAction::triggered,this, &MyQtMainWindow::OpenFileDialog);
+	QObject::connect(openNetAction, &QAction::triggered, this, &MyQtMainWindow::OpenNetUrlDialog);
 
 	QWidget* bottom = new QWidget();
 	bottom->setFixedHeight(50);
@@ -181,7 +184,7 @@ void MyQtMainWindow::OpenFileDialog()
 		timer.start(1000); // 每隔1000毫秒（1秒）触发一次定时器事件
 		
 		fileDecode = new FileDecode();
-;		fileDecode->SetMyWindow(this);
+        fileDecode->SetMyWindow(this);
 		fileDecode->StartRead(fileName.toStdString());
 
 		playFlag = true;
@@ -189,6 +192,29 @@ void MyQtMainWindow::OpenFileDialog()
 
 	}
 	fileDialog.close();
+}
+
+void MyQtMainWindow::OpenNetUrlDialog()
+{
+	std::string url = "";
+	ChooseUrlDialog urlDialog;
+	if (urlDialog.exec() == QDialog::Accepted) {
+		url = urlDialog.url;
+
+		QObject::connect(&timer, &QTimer::timeout, this, &MyQtMainWindow::UpdatePlayerInfo);
+		timer.start(1000); // 每隔1000毫秒（1秒）触发一次定时器事件
+
+		fileDecode = new FileDecode();
+		fileDecode->SetMyWindow(this);
+		fileDecode->StartRead(url);
+
+		playFlag = true;
+		pushButton->setText("pause");
+	}
+	else
+	{
+		return;
+	}
 }
 
 void MyQtMainWindow::test() {
